@@ -111,25 +111,7 @@ type Prettify<T> = {
                                     </a>
                                 </div>
                                 <div class="flex flex-wrap mt-3">
-                                    <style>
-                                        ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    flex: 1 1 calc(25% - 10px); /* Cada <li> ocupará el 25% del ancho con un pequeño margen */
-    margin-right: 10px; /* Espacio entre los <li> */
-    margin-bottom: 10px; /* Espacio debajo para que el salto de línea sea claro */
-}
-
-ul li:nth-child(4n) {
-    margin-right: 0; /* Eliminar margen derecho para el último elemento en cada fila */
-}
-
-                                    </style>
+                                    
                                     <ul class="flex gap-x-2 flex-row pb-4">
                                         {technologies.map((tech) => {
                                             type Tag = Prettify<

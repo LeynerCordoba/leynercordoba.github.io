@@ -1,0 +1,52 @@
+---
+const navItems = [
+  {
+    title: "Home",
+    label: "home",
+    url: "/#top",
+  },
+  {
+    title: "Experience",
+    label: "experience",
+    url: "/#experience",
+  },
+  {
+    title: "Projects",
+    label: "projects",
+    url: "/#projects",
+  },
+  {
+    title: "Certificates",
+    label: "certificates",
+    url: "/#certificates",
+  },
+  {
+    title: "Blog",
+    label: "blog",
+    url: "/blog",
+  },
+  {
+    title: "Contact",
+    label: "contact",
+    url: "mailto:teovelilla@gmail.com",
+  },
+];
+---
+<footer class="w-full footer-portfolio
+    bg-black flex justify-center">
+    <div
+        class="flex justify-center w-full max-w-screen-xl p-4 md:flex md:items-center md:justify-center"
+    >
+        <ul
+            class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0"
+        >
+            {
+             navItems.map(({url, title})=>(
+                <li>
+                    <a href={url} class="hover:underline me-4 md:me-6">{title}</a>
+                </li>
+             ))   
+            }
+        </ul>
+    </div>
+</footer>

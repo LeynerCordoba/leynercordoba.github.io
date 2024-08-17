@@ -1,0 +1,57 @@
+---
+import { basics, work, projects, certificates } from "@/cv.json";
+import Layout from "@/layouts/Layout.astro";
+import Hero from "@/components/Hero.astro";
+import Experience from "@/components/Experience.astro";
+import Certificates from "@/components/Certificates.astro";
+import Projects from "@/components/Projects.astro";
+import HeroPrintable from "@/components/cv/Hero.astro";
+import AboutPrintable from "@/components/cv/About.astro";
+import ExperiencePrintable from "@/components/cv/Experience.astro";
+import ProjectPrintable from "@/components/cv/Projects.astro";
+import CertificatesPrintable from "@/components/cv/Certificates.astro";
+import SkillsPrintable from "@/components/cv/Skills.astro";
+---
+
+<div class="current-layout">
+	<Layout
+		title="Portfolio's Leyner Cordoba"
+		description="Portfolio and blog of Leyner Cordoba"
+	>
+		<main class="px-4 min-h-screen pb-24">
+			<Hero
+				label={basics.label}
+				profiles={basics.profiles}
+				name={basics.name}
+				status={basics.status}
+				image={basics.image}
+			/>
+			<Experience work={work} />
+			<Projects projects={projects} />
+			<Certificates certificates={certificates} />
+		</main>
+	</Layout>
+</div>
+<div class="printable">
+	<Layout title="CV" description="Portfolio printable version">
+		<HeroPrintable />
+		<AboutPrintable />
+		<ExperiencePrintable />
+		<CertificatesPrintable />
+		<ProjectPrintable />
+		<SkillsPrintable />
+	</Layout>
+</div>
+<style is:global>
+	.printable {
+		display: none;
+	}
+	@media print {
+		.current-layout {
+			display: none;
+		}
+		.printable {
+			display: block;
+		}
+	}
+</style>

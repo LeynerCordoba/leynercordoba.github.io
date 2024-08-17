@@ -1,0 +1,203 @@
+---
+import CSSIcon from "../components/Icons/CSS.astro";
+import HTMLIcon from "../components/Icons/HTML.astro";
+import JavascriptIcon from "../components/Icons/Javascript.astro";
+import PHPIcon from "../components/Icons/PHP.astro";
+import BootstrapIcon from "../components/Icons/Bootstrap.astro";
+import VueJSIcon from "../components/Icons/VueJS.astro";
+import LaravelIcon from "../components/Icons/Laravel.astro";
+import GithubIcon from "./Icons/Github.astro";
+import FileCodeIcon from "./Icons/FileCode.astro";
+import Container from "./Container.astro";
+import type Laravel from "../components/Icons/Laravel.astro";
+import type VueJS from "../components/Icons/VueJS.astro";
+import Bootstrap from "../components/Icons/Bootstrap.astro";
+const { projects } = Astro.props;
+type TECH = {
+    [key: string]: {
+        name: string;
+        class: string;
+        icon: typeof CSSIcon | typeof HTMLIcon | typeof JavascriptIcon
+        | typeof PHPIcon | typeof BootstrapIcon | typeof VueJSIcon
+        | typeof LaravelIcon;
+    };
+};
+const TECNHOLOGIES: TECH = {
+    CSS: {
+        name: "CSS",
+        class: "",
+        icon: CSSIcon,
+    },
+    HTML: {
+        name: "HTML",
+        class: "",
+        icon: HTMLIcon,
+    },
+    Javascript: {
+        name: "Javascript",
+        class: "",
+        icon: JavascriptIcon,
+    },
+    PHP: {
+        name: "PHP",
+        class: "",
+        icon: PHPIcon,
+    },
+    Laravel: {
+        name: "Laravel",
+        class: "",
+        icon: LaravelIcon,
+    },
+    VueJS: {
+        name: "VueJS",
+        class: "",
+        icon: VueJSIcon,
+    },
+    Bootstrap: {
+        name: "Bootstrap",
+        class: "",
+        icon: BootstrapIcon,
+    },
+};
+type Prettify<T> = {
+    [K in keyof T]: T[K];
+} & {};
+---
+
+<Container id="projects">
+    <h2
+        class="dark:text-white text-3xl font-semibold mb-4 flex gap-x-3 items-center"
+    >
+        <FileCodeIcon class="size-7" />
+        Projects
+    </h2>
+    <div class="flex flex-col gap-y-16">
+        {
+            projects.map(
+                ({
+                    name,
+                    description,
+                    github,
+                    url,
+                    image,
+                    technologies,
+                }: {
+                    name: string;
+                    description: string;
+                    github: string;
+                    url: string;
+                    image: string;
+                    technologies: string[];
+                }) => (
+                    
+                    <article>
+                        <h3 class="text-2xl font-semibold text-orange-400 dark:text-orange-200 mb-2">
+                            {name}
+                        </h3>
+                        <div class="flex flex-col space-x-0 group md:flex-row md:space-x-8 md:space-y-0">
+                            <div class="w-full md:w-1/2">
+                                <div class="relative flex flex-col  col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
+                                    <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <img
+                                            alt=""
+                                            class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
+                                            loading="lazy"
+                                            src={image}
+                                        />
+                                    </a>
+                                </div>
+                                <div class="flex flex-wrap mt-3">
+                                    <style>
+                                        ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    flex: 1 1 calc(25% - 10px); /* Cada <li> ocupará el 25% del ancho con un pequeño margen */
+    margin-right: 10px; /* Espacio entre los <li> */
+    margin-bottom: 10px; /* Espacio debajo para que el salto de línea sea claro */
+}
+
+ul li:nth-child(4n) {
+    margin-right: 0; /* Eliminar margen derecho para el último elemento en cada fila */
+}
+
+                                    </style>
+                                    <ul class="flex gap-x-2 flex-row pb-4">
+                                        {technologies.map((tech) => {
+                                            type Tag = Prettify<
+                                                | (typeof TECNHOLOGIES)["CSS"]
+                                                | (typeof TECNHOLOGIES)["HTML"]
+                                                | (typeof TECNHOLOGIES)["PHP"]
+                                                | (typeof TECNHOLOGIES)["Laravel"]
+                                                | (typeof TECNHOLOGIES)["Javascript"]
+                                                | (typeof TECNHOLOGIES)["VueJS"]
+                                                | (typeof TECNHOLOGIES)["Bootstrap"]
+                                            >;
+                                            const tag: Tag = TECNHOLOGIES[tech];
+                                            const Icon = tag.icon;
+                                            return (
+                                                <li>
+                                                    <span
+                                                        class={`
+                                        flex
+                                        gap-x-2
+                                        rounded-full
+                                        text-xs
+                                        ${tag.class}
+                                        py-1
+                                        px-2
+                                        bg-white/10
+                                    `}
+                                                    >
+                                                        <Icon class="size-4" />
+                                                        {tag.name}
+                                                    </span>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2 md:max-w-lg">
+                                <div class="dark:text-white">{description}</div>
+                                <a
+                                    href={github}
+                                    class="
+                                rounded-lg
+                                px-4
+                                py-2
+                                border
+                                border-white/10
+                                text-base
+                                flex
+                                bg-orange-300/30
+                                dark:bg-white/10
+                                hover:bg-orange-200
+                                dark:hover:bg-orange-200
+                                dark:hover:text-black
+                                gap-x-3
+                                w-24
+                                items-center
+                            "
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <GithubIcon class="size-4" />
+                                    {" Code"}
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                ),
+            )
+        }
+    </div>
+</Container>

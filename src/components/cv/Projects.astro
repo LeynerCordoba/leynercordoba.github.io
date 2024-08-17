@@ -1,0 +1,34 @@
+---
+import Section from "./Section.astro";
+import { projects } from "@/cv.json";
+---
+
+<Section title="Projects">
+    <ul class="grid grid-certificates gap-4">
+        {
+            projects.map(({ url, description, name, technologies }) => {
+                return (
+                    <li>
+                        <article class="pb-2">
+                            <header class="pb-1">
+                                <a href={url}>
+                                    <h3>{name}</h3>
+                                </a>
+                                <p>{description}</p>
+                            </header>
+                            <footer class="flex flex-wrap gap-2">
+                                {technologies.map((technology) => {
+                                    return (
+                                        <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                                            {technology}
+                                        </span>
+                                    );
+                                })}
+                            </footer>
+                        </article>
+                    </li>
+                );
+            })
+        }
+    </ul>
+</Section>

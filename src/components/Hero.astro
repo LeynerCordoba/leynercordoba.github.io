@@ -1,0 +1,67 @@
+---
+const { label, profiles, name, status, image } = Astro.props;
+import Container from "./Container.astro";
+import Badge from "./Badge.astro";
+import SocialMedia from "./SocialMedia.astro";
+import LinkedinIcon from "./Icons/Linkedin.astro";
+import GithubIcon from "./Icons/Github.astro";
+import MailIcon from "./Icons/Mail.astro";
+import XIcon from "./Icons/X.astro";
+---
+
+<Container class="pt-32 pb-12">
+    <div class="w-full flex pb-4 items-center justify-start gap-x-2">
+        <img src={image} alt="logo" class="rounded-full size-24 mb-4" />
+        <h1
+            class="dar:text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-col text-left gap-x-2 pb-6 lg:pb-10"
+        >
+            Hi, I'm {name}
+            <Badge>{status}</Badge>
+        </h1>
+    </div>
+    <h2
+        class="dark:text-white text-xl lg:text-2xl text-wrap max-w-[700px] opacity-90"
+    >
+        {
+            label.map((text: string, i: number) => {
+                return i % 2 === 0 ? (
+                    <span class="font-bold">{text}</span>
+                ) : (
+                    <span class="text-orange-400 font-bold dark:text-orange-200">
+                        {text}
+                    </span>
+                );
+            })
+        }
+    </h2>
+    <nav class="flex gap-2 mt-4 flex-wrap text-white">
+        {
+            profiles.map(
+                ({ network, url }: { network: string; url: string }) =>
+                    (network === "Linkedin" && (
+                        <SocialMedia href={url}>
+                            <LinkedinIcon class="size-4 md:size-6" />
+                            Linkedin
+                        </SocialMedia>
+                    )) ||
+                    (network === "Github" && (
+                        <SocialMedia href={url}>
+                            <GithubIcon class="size-4 md:size-6" />
+                            Github
+                        </SocialMedia>
+                    )) ||
+                    (network === "Gmail" && (
+                        <SocialMedia href={url}>
+                            <MailIcon class="size-4 md:size-6" />
+                            Mail
+                        </SocialMedia>
+                    )) ||
+                    (network === "X" && (
+                        <SocialMedia href={url}>
+                            <XIcon class="size-4 md:size-6" />
+                        </SocialMedia>
+                    )),
+            )
+        }
+    </nav>
+</Container>

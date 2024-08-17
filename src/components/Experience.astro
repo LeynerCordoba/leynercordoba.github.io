@@ -1,0 +1,49 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+import BriefCaseIcon from "./Icons/BriefCase.astro";
+import Container from "./Container.astro";
+const { work } = Astro.props;
+---
+
+<Container id="experience">
+    <h2
+        class="dark:text-white text-3xl font-semibold mb-4 flex gap-x-3 items-center"
+    >
+        <BriefCaseIcon class="size-6 dark:text-white-300" />
+        Experience
+    </h2>
+    <ol
+        class="relative border-s-2 dark:border-s border-[#00091d] dark:border-white ml-3"
+    >
+        {
+            work.map(
+                ({
+                    name,
+                    position,
+                    url,
+                    startDate,
+                    endDate,
+                    summary,
+                }: {
+                    name: string;
+                    position: string;
+                    url: string;
+                    startDate: string;
+                    endDate: string;
+                    summary: string;
+                }) => (
+                    <li class="mb-10 ms-4">
+                        <ExperienceItem
+                            name={name}
+                            position={position}
+                            url={url}
+                            startDate={startDate}
+                            endDate={endDate}
+                            summary={summary}
+                        />
+                    </li>
+                ),
+            )
+        }
+    </ol>
+</Container>

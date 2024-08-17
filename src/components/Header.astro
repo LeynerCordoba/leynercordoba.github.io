@@ -1,0 +1,212 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import HomeIcon from "./Icons/Home.astro";
+import BriefCaseIcon from "./Icons/BriefCase.astro";
+import FileCodeIcon from "./Icons/FileCode.astro";
+import CertificateIcon from "./Icons/Certificate.astro";
+import ArticleIcon from "./Icons/Article.astro";
+import MailIcon from "./Icons/Mail.astro";
+import { basics } from "@/cv.json";
+const { email } = basics;
+const navItems = [
+  {
+    title: "Home",
+    label: "home",
+    url: "/#top",
+  },
+  {
+    title: "Experience",
+    label: "experience",
+    url: "/#experience",
+  },
+  {
+    title: "Projects",
+    label: "projects",
+    url: "/#projects",
+  },
+  {
+    title: "Certificates",
+    label: "certificates",
+    url: "/#certificates",
+  },
+  {
+    title: "Blog",
+    label: "blog",
+    url: "/blog",
+  },
+  {
+    title: "Contact",
+    label: "contact",
+    url: `mailto:${email}`,
+  },
+];
+---
+
+<header
+  class="header-portfolio
+        fixed
+        top-0
+        z-10
+        flex
+        items-center
+        justify-center
+        w-full
+        mx-auto
+        mt-2
+        p-4"
+>
+  <nav
+    class="menu-navbar
+            flex
+            text-sm
+            font-medium
+            rounded-full
+            text-gray-600
+            dark:text-white
+            justify-center
+            items-center
+            dark:bg-transparent"
+  >
+    {
+      navItems.map(({ label, title, url }) => (
+        <a
+          class="
+                    relative
+                    block
+                    px-3
+                    py-3
+                    transition
+                    hover:text-orange-300
+                    hover:dark:text-orange-300
+                    dark:text-white
+                    "
+          aria-label={label}
+          href={url}
+        >
+          <p class="hidden md:block">{title}</p>
+          <div class="md:hidden">
+            {label === "home" && <HomeIcon class="size-6" />}
+            {label === "experience" && <BriefCaseIcon class="size-6" />}
+            {label === "projects" && <FileCodeIcon class="size-6" />}
+            {label === "certificates" && <CertificateIcon class="size-6" />}
+            {label === "blog" && <ArticleIcon class="size-6" />}
+            {label === "contact" && <MailIcon class="size-6" />}
+          </div>
+        </a>
+      ))
+    }
+    <ThemeToggle />
+  </nav>
+</header>
+<script is:inline src="/scripts/refresh-styles.js"></script>
+<script>
+  document.addEventListener("astro:page-load", () => {
+    console.log("Cambio de pagina wey");
+    const sections = document.querySelectorAll("section");
+    const navItems = document.querySelectorAll("header nav a");
+
+    const callback = (entries: any[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("aria-label") == entry.target.id) {
+              item.classList.add("text-orange-300");
+            } else {
+              item.classList.remove("text-orange-300");
+            }
+          });
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    });
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+
+    // Cleanup function
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "hidden") {
+        observer.disconnect();
+      } else {
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+      }
+    };
+    const getThemePreference = () => {
+      if (typeof localStorage !== "undefined") {
+        return localStorage.getItem("theme") ?? "system";
+      }
+
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    };
+    const updateIcon = (themePreference:string) => {
+      const elements: NodeListOf<HTMLElement> = document.querySelectorAll(".theme-toggle-icon");
+      elements.forEach((element) => {
+        element.style.scale = element.id === themePreference ? "1" : "0";
+      });
+    };
+    const updateTheme = () => {
+      const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      matchMedia.removeEventListener("change", updateTheme);
+      const themePreference = getThemePreference();
+      const isDark =
+        themePreference === "dark" ||
+        (themePreference === "system" && matchMedia.matches);
+
+      updateIcon(themePreference);
+      document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+    };
+    function refreshTheme() {
+      updateTheme();
+      document.querySelectorAll(".themes-menu").forEach((element) => {
+        document.addEventListener("click", () =>
+          element.classList.remove("open"),
+        );
+      });
+      document.querySelectorAll(".theme-toggle-btn").forEach((element) => {
+        element.addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".themes-menu").forEach((themesMenu) => {
+            const isClosed = !themesMenu.classList.contains("open");
+            themesMenu.classList[isClosed ? "add" : "remove"]("open");
+          });
+        });
+      });
+      const themes_menu: NodeListOf<Element> = document.querySelectorAll(".themes-menu-option")
+      themes_menu.forEach((element) => {
+        element.addEventListener("click", (e) => {
+          const event = e.target as HTMLElement
+          if(event){
+            localStorage.setItem(
+              "theme",
+              event.innerText.toLowerCase().trim(),
+            );
+          }
+          updateTheme();
+        });
+      });
+    }
+    refreshTheme();
+  });
+</script>
+<style>
+  .menu-navbar {
+    animation: nav-shadown 1s linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100px;
+  }
+  @keyframes nav-shadown {
+    to {
+      @apply shadow-lg ring-1 backdrop-blur bg-white/50 ring-white;
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <main class="px-4 pt-32 min-h-screen pb-24">
+    <Container class="bg-orange-500/20 dark:bg-black rounded-lg p-10">
+      <img class="rounded-lg mb-2" src={frontmatter.banner} alt="" />
+      <h2 class="text-3xl font-bold text-black dark:text-white/80">
+        {frontmatter.title}
+      </h2>
+      <h3 class="text-sm text-black/50 dark:text-white/50 pb-2">
+        {frontmatter.date}
+      </h3>
+      <p class="pb-2">{frontmatter.description}</p>
+      <slot />
+    </Container>
+  </main>
+</Layout>

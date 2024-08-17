@@ -1,0 +1,44 @@
+---
+interface Props {
+	title: string;
+	description: string;
+}
+
+import "@fontsource-variable/league-spartan";
+const { title, description } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="stylesheet" href="/styles/global.css" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body class="relative text-black dark:text-white">
+		<div
+			class="absolute
+			top-0
+			bottom-0
+			z-[-2]
+			min-h-screen
+			w-full
+			bg-[radial-gradient(#ffedd5_1px,#f3f2f2_1px)] [background-size:16px_16px]
+			dark:bg-[#000000]
+			dark:bg-[radial-gradient(#ffffff33_1px,#00091d_1px)]
+			dark:bg-[size:20px_20px]"
+		>
+		</div>
+		<Header />
+		<slot />
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,68 @@
+---
+import Container from "./Container.astro";
+import CertificatesIcon from "./Icons/Certificate.astro";
+const { certificates } = Astro.props;
+---
+
+<Container id="certificates" class="pt-4">
+    <h2
+        class="dark:text-white text-3xl font-semibold mb-4 flex gap-x-3 items-center"
+    >
+        <CertificatesIcon class="size-7" />
+        Certificates
+    </h2>
+    <div class="flex flex-col gap-y-16">
+        {
+            certificates.map(
+                ({
+                    name,
+                    url,
+                    image,
+                    description,
+                    issuer,
+                    date,
+                }: {
+                    name: string;
+                    url: string;
+                    image: string;
+                    description: string;
+                    issuer: string;
+                    date: string;
+                }) => (
+                    <article>
+                        <header>
+                            <h3 class="text-2xl font-semibold text-orange-400 dark:text-orange-200 mb-2">
+                                {name}
+                            </h3>
+                        </header>
+                        <div class="flex flex-col space-x-0 group md:flex-row md:space-x-8 md:space-y-0">
+                            <div class="w-full md:w-1/3">
+                                <div class="relative flex flex-col  col-span-3 row-span-5 gap-8 transition duration-300 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-200 lg:hover:border-gray-200 dark:lg:hover:bg-white-200/50 lg:hover:bg-gray-300/50">
+                                    <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <img
+                                            alt=""
+                                            class="object-cover object-top h-full transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
+                                            loading="lazy"
+                                            src={image}
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2 md:max-w-lg">
+                                <div class="dark:text-white">{description}</div>
+                                <div class="dark:text-white">
+                                    Issuer: {issuer}
+                                </div>
+                                <div class="dark:text-white">Date: {date}</div>
+                            </div>
+                        </div>
+                    </article>
+                ),
+            )
+        }
+    </div>
+</Container>
